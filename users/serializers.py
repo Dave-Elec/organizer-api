@@ -38,5 +38,21 @@ class RegistrationSerializer(serializers.ModelSerializer):
         return user
 
 
-    
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = User
+        fields = ("first_name", "last_name", "email", "date_joined", "avatar")
+        read_only_fields = ("email", "date_joined")
 
+    
+class UserSerializer(serializers.HyperlinkedModelSerializer):
+    class Meta:
+        model = User
+        fields = ('url', 'first_name', 'last_name', 'email', 'date_joined')
+
+        extra_kwargs = {
+            "url": {
+                "lookup_field": "pk",
+                "view_name": "users:user-detail",
+            }
+        }
